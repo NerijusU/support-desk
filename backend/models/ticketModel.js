@@ -1,24 +1,26 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema(
+const ticketSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, "Please add a name"],
-    },
-    email: {
-      type: String,
-      required: [true, "Please add an email"],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please add a password"],
-    },
-    isAdmin: {
-      type: Boolean,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      default: false,
+      ref: 'User'
+    },
+    product: {
+      type: String,
+      required: [true, "Please select a product"],
+      enum: ['iPhone', 'Macbook', 'iMac', 'iPad'],
+    },
+    description: {
+      type: String,
+      required: [true, "Please enter a description of the issue"],
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['new', 'open', 'closed'],
+      default: 'new',
     },
   },
   {
@@ -26,4 +28,4 @@ const userSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Ticket', ticketSchema)
